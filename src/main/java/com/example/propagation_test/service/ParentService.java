@@ -38,4 +38,30 @@ public class ParentService {
             childService.doSomethingWithRequiredThrowCheckedException();
         } catch (Exception e) {}
     }
+
+    @Transactional
+    public void doSomethingWithPropagationNew() {
+        Player p1 = Player.of();
+        p1.setNickName("parent");
+        playerRepository.save(p1);
+        childService.doSomethingWithRequiredNew();
+    }
+
+    @Transactional
+    public void doSomethingAndChildWithPropagationNewThrowException() throws Exception {
+        Player p1 = Player.of();
+        p1.setNickName("parent");
+        playerRepository.save(p1);
+        childService.doSomethingWithRequiredNewThrowCheckedException();
+    }
+
+    @Transactional
+    public void doSomethingAndChildWithPropagationNewThrowExceptionAndCatch() {
+        Player p1 = Player.of();
+        p1.setNickName("parent");
+        playerRepository.save(p1);
+        try {
+            childService.doSomethingWithRequiredNewThrowCheckedException();
+        } catch (Exception e) {}
+    }
 }

@@ -29,4 +29,18 @@ public class ChildService {
         throw new RuntimeException("오류가 났어요.");
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void doSomethingWithRequiredNew() {
+        Player p2 = Player.of();
+        p2.setNickName("child");
+        playerRepository.save(p2);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void doSomethingWithRequiredNewThrowCheckedException() throws RuntimeException {
+        Player p2 = Player.of();
+        p2.setNickName("child");
+        playerRepository.save(p2);
+        throw new RuntimeException("오류가 났어요.");
+    }
 }

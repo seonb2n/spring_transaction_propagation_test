@@ -24,7 +24,7 @@ class ParentServiceTest {
 
     @DisplayName("[Propagation.required] 자식 정상 실행, 부모 정상 실행")
     @Test
-    public void 자식정상실행_부모정상실행() throws Exception {
+    public void 자식정상실행_부모정상실행() {
         //when
         parentService.doSomething();
     }
@@ -34,7 +34,7 @@ class ParentServiceTest {
     public void 자식오류던짐_부모정상실행() throws Exception {
         //when
         assertThrows(RuntimeException.class, () -> parentService.doSomethingAndChildThrowException());
-        // rollback 실행
+        // 전체 rollback 실행
     }
 
     @DisplayName("[Propagation.required] 자식 오류 던짐, 부모 오류 처리")
@@ -42,7 +42,31 @@ class ParentServiceTest {
     public void 자식정상실행_부모에러캐치정상실행() throws Exception {
         //when
         assertThrows(UnexpectedRollbackException.class, () -> parentService.doSomethingAndChildThrowExceptionAndCatch());
-        // rollback 실행
+        // 전체 rollback 실행
+    }
+
+    @DisplayName("[Propagation.required_new] 자식 정상 실행, 부모 정상 실행")
+    @Test
+    public void new_자식정상실행_부모정상실행() {
+        //when
+        parentService.doSomethingWithPropagationNew();
+    }
+
+    @DisplayName("[Propagation.required_new] 자식 오류 던짐, 부모 정상 실행")
+    @Test
+    public void new_자식오류던짐_부모정상실행() throws Exception {
+        //when
+        assertThrows(RuntimeException.class, () -> parentService.doSomethingAndChildWithPropagationNewThrowException());
+        // 전체 rollback 실행
+    }
+
+    @DisplayName("[Propagation.required_new] 자식 오류 던짐, 부모 오류 처리")
+    @Test
+    public void new_자식정상실행_부모에러캐치정상실행() throws Exception {
+        //when
+        parentService.doSomethingAndChildWithPropagationNewThrowExceptionAndCatch();
+        // 부모 정상 실행
+        // 자식 rollback
     }
 
 }
